@@ -1,6 +1,6 @@
 //
 //  PlistDatasource.swift
-//  Urna-iOS
+//  Datasources
 //
 //  Created by Jordi Pellat Massó on 2/16/20.
 //  Copyright © 2020 Urna. All rights reserved.

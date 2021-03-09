@@ -22,9 +22,8 @@ let package = Package(
             name: "DatasourcesTests",
             dependencies: ["Datasources"],
             resources: [
-                .copy("Info.plist"),
-                .copy("PlistForTest1.plist"),
-                .copy("PlistForTest2.plist")]
+                .process("Resources")
+            ]
         ),
     ]
 )

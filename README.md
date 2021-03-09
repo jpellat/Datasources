@@ -1,3 +1,3 @@
 # Datasources
 
-A description of this package.
+A package to define datasources and storages that can be used in combination with Combine.

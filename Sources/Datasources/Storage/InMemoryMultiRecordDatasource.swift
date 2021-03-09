@@ -1,6 +1,6 @@
 //
 //  InMemoryMultiRecordStorage.swift
-//  Urna-iOS
+//  Datasources
 //
 //  Created by Jordi Pellat Massó on 2/14/20.
 //  Copyright © 2020 Urna. All rights reserved.
@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 public class InMemoryMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable {
-    var lastId = 0
+    private var lastId = 0
     
     let recordsPublisher: CurrentValueSubject<[DT], Never>
     
