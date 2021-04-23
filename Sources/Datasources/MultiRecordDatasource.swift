@@ -3,7 +3,6 @@
 //  Datasources
 //
 //  Created by Jordi Pellat Massó on 2/14/20.
-//  Copyright © 2020 Urna. All rights reserved.
 //
 
 import Foundation
