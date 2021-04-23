@@ -20,7 +20,7 @@ public protocol MultiRecordStorage: MultiRecordDatasource where DataType: Record
 }
 
 public extension MultiRecordStorage {
-    public func toAnyMultiRecordStorage() -> AnyMultiRecordStorage<DataType> {
+    func toAnyMultiRecordStorage() -> AnyMultiRecordStorage<DataType> {
         AnyMultiRecordStorage(self)
     }
 }

@@ -16,7 +16,7 @@ public protocol SingleRecordStorage: SingleRecordDatasource {
 }
 
 public extension SingleRecordStorage {
-    public func toAnySingleRecordStorage() -> AnySingleRecordStorage<DataType> {
+    func toAnySingleRecordStorage() -> AnySingleRecordStorage<DataType> {
         AnySingleRecordStorage(self)
     }
 }
