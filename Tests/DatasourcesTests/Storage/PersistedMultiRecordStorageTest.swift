@@ -148,5 +148,17 @@ class PersistedMultiRecordStorageTest: XCTestCase {
         
         XCTAssertEqual(currentData, [])
     }
+    
+    func test_savedRecordsDifferentInstances_dontShareIds() {
+        var record = TestRecord(data: "data")
+        record = datasource.save(record)
+        
+        datasource = PersistedMultiRecordStorage(fileName: "filename").toAnyMultiRecordStorage()
+        
+        var secondRecord = TestRecord(data: "Other data")
+        secondRecord = datasource.save(secondRecord)
+        
+        XCTAssertNotEqual(record.id, secondRecord.id)
+    }
 
 }

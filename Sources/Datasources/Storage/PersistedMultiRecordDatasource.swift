@@ -52,6 +52,9 @@ public class PersistedMultiRecordStorage<DT>: MultiRecordStorage where DT: Recor
             let decoder = JSONDecoder()
             do {
                 let object: [DataType] = try decoder.decode([DataType].self, from: stringData)
+                self.lastId = object.reduce(0) { (biggestId, data) -> Int in
+                    max(Int(data.id!)!, biggestId)
+                }
                 recordsPublisher.send(object)
             } catch {}
         }
