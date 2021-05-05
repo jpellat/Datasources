@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@available(watchOS 6.0, *)
 public class PersistedSingleRecordStorage<DataType: Codable>: SingleRecordStorage {
     private var data: DataType?
     private let subjectPublisher: CurrentValueSubject<DataType?, Never>

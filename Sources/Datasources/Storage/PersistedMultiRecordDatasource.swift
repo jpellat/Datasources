@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@available(watchOS 6.0, *)
 public class PersistedMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable {
     var lastId = 0
     private var fileName: String

@@ -8,12 +8,14 @@
 import Foundation
 import Combine
 
+@available(watchOS 6.0, *)
 public protocol MultiRecordDatasource {
     associatedtype DataType
     
     func queryAll() -> AnyPublisher<[DataType], Never>
 }
 
+@available(watchOS 6.0, *)
 public struct MultiRecordQuery<DT> {
     let filter: (DT) -> Bool
     
@@ -22,6 +24,7 @@ public struct MultiRecordQuery<DT> {
     }
 }
 
+@available(watchOS 6.0, *)
 public extension MultiRecordDatasource {
     func toAnyMultiRecordDatasource() -> AnyMultiRecordDatasource<DataType> {
         AnyMultiRecordDatasource(self)
@@ -36,6 +39,7 @@ public extension MultiRecordDatasource {
     }
 }
 
+@available(watchOS 6.0, *)
 public struct AnyMultiRecordDatasource<DT>: MultiRecordDatasource {
     private let datasource: Any
     private let queryAllFunc: () -> AnyPublisher<[DT], Never>

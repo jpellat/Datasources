@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@available(watchOS 6.0, *)
 public protocol SingleRecordStorage: SingleRecordDatasource {
     associatedtype DataType
     
@@ -15,12 +16,14 @@ public protocol SingleRecordStorage: SingleRecordDatasource {
     func clean() -> Void
 }
 
+@available(watchOS 6.0, *)
 public extension SingleRecordStorage {
     func toAnySingleRecordStorage() -> AnySingleRecordStorage<DataType> {
         AnySingleRecordStorage(self)
     }
 }
 
+@available(watchOS 6.0, *)
 public struct AnySingleRecordStorage<DT>: SingleRecordStorage {
     private let storage: Any
     private let getDataFunc: () -> DT?

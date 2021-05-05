@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@available(watchOS 6.0, *)
 public protocol SingleRecordDatasource {
     associatedtype DataType
     
@@ -15,12 +16,14 @@ public protocol SingleRecordDatasource {
     func getPublisher() -> AnyPublisher<DataType?, Never>
 }
 
+@available(watchOS 6.0, *)
 public extension SingleRecordDatasource {
     func toAnySingleRecordDatasource() -> AnySingleRecordDatasource<DataType> {
         AnySingleRecordDatasource(self)
     }
 }
 
+@available(watchOS 6.0, *)
 public struct AnySingleRecordDatasource<DT>: SingleRecordDatasource {
     private let datasource: Any
     private let getDataFunc: () -> DT?
