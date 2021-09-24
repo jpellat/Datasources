@@ -29,7 +29,7 @@ public extension MultiRecordStorage {
 }
 
 @available(watchOS 6.0, *)
-public struct AnyMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable {
+public struct AnyMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable, DT: Equatable {
     private let storage: Any
     private let saveFunc: (DT) -> DT
     private let queryAllFunc: () -> AnyPublisher<[DT], Never>

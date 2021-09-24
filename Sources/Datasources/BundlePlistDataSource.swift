@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @available(watchOS 6.0, *)
-public class BundlePlistDataSource<DT: Decodable>: MultiRecordDatasource {
+public class BundlePlistDataSource<DT>: MultiRecordDatasource where DT:Recordable, DT:Equatable {
     private var publisher: CurrentValueSubject<[DT], Never>
     private var fileNames: [String]
     private let bundle: Bundle

@@ -10,7 +10,7 @@ import Combine
 
 @available(watchOS 6.0, *)
 public protocol MultiRecordDatasource {
-    associatedtype DataType
+    associatedtype DataType : Equatable
     
     func queryAll() -> AnyPublisher<[DataType], Never>
 }
@@ -35,12 +35,14 @@ public extension MultiRecordDatasource {
             registers.filter { record -> Bool in
                 query.filter(record)
             }
+        }.removeDuplicates {previous, current in
+            return previous == current
         }.eraseToAnyPublisher()
     }
 }
 
 @available(watchOS 6.0, *)
-public struct AnyMultiRecordDatasource<DT>: MultiRecordDatasource {
+public struct AnyMultiRecordDatasource<DT: Equatable>: MultiRecordDatasource {
     private let datasource: Any
     private let queryAllFunc: () -> AnyPublisher<[DT], Never>
     private let queryFunc: (MultiRecordQuery<DT>) -> AnyPublisher<[DT], Never>

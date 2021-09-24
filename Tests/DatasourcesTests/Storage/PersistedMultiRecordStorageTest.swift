@@ -128,6 +128,29 @@ class PersistedMultiRecordStorageTest: XCTestCase {
         token.cancel()
     }
     
+    func test_query_removedDuplicates() {
+        var numberOfCalls: Int = 0
+        let token = datasource.query(query: MultiRecordQuery(filter: { (record) -> Bool in
+            record.data == "search"
+        })).sink { (records) in
+            numberOfCalls += 1
+        }
+        
+        var record = TestRecord(data: "data")
+        record = datasource.save(record)
+        
+        var queriedResult = TestRecord(data: "search")
+        queriedResult = datasource.save(queriedResult)
+        
+        record = TestRecord(data: "data2")
+        record = datasource.save(record)
+        
+        // one for the empty array and one when the register appears
+        XCTAssertEqual(numberOfCalls, 2)
+        
+        token.cancel()
+    }
+    
     func test_savedRecords_cleanData_newStorageHasNoData() {
         var record = TestRecord(data: "data")
         record = datasource.save(record)

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @available(watchOS 6.0, *)
-public class InMemoryMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable {
+public class InMemoryMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable, DT: Equatable {
     private var lastId = 0
     
     let recordsPublisher: CurrentValueSubject<[DT], Never>
