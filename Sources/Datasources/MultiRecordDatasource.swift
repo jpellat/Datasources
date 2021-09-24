@@ -39,6 +39,14 @@ public extension MultiRecordDatasource {
             return previous == current
         }.eraseToAnyPublisher()
     }
+    
+    func queryRegister(id: ID) -> AnyPublisher<DataType?, Never> {
+        queryAll().map { registers in
+            registers.first
+        }.removeDuplicates { prev, actual in
+            prev == actual
+        }.eraseToAnyPublisher()
+    }
 }
 
 @available(watchOS 6.0, *)
@@ -46,11 +54,13 @@ public struct AnyMultiRecordDatasource<DT: Equatable>: MultiRecordDatasource {
     private let datasource: Any
     private let queryAllFunc: () -> AnyPublisher<[DT], Never>
     private let queryFunc: (MultiRecordQuery<DT>) -> AnyPublisher<[DT], Never>
+    private let queryRegisterFunc: (ID) -> AnyPublisher<DT?, Never>
     
     public init<D: MultiRecordDatasource>(_ datasource: D) where D.DataType == DT {
         self.datasource = datasource
         queryAllFunc = datasource.queryAll
         queryFunc = datasource.query
+        queryRegisterFunc = datasource.queryRegister
     }
         
     public func queryAll() -> AnyPublisher<[DT], Never> {
@@ -59,5 +69,9 @@ public struct AnyMultiRecordDatasource<DT: Equatable>: MultiRecordDatasource {
     
     public func query(query: MultiRecordQuery<DT>) -> AnyPublisher<[DT], Never> {
         queryFunc(query)
+    }
+    
+    func queryRegister(id: ID) -> AnyPublisher<DT?, Never> {
+        queryRegisterFunc(id)
     }
 }

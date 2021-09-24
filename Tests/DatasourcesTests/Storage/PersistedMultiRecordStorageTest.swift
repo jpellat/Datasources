@@ -151,6 +151,59 @@ class PersistedMultiRecordStorageTest: XCTestCase {
         token.cancel()
     }
     
+    func test_queryRegister_returnsRegister() {
+        let id = datasource.save(TestRecord(data: "data")).id!
+        var returnedRecord: TestRecord? = nil
+        let token = datasource.queryRegister(id: id).sink { record in
+            returnedRecord = record
+        }
+        
+        XCTAssertEqual(returnedRecord?.data, "data")
+        
+        token.cancel()
+    }
+    
+    func test_queryUnexistingRegister_returnsNil() {
+        var returnedRecord: TestRecord? = nil
+        let token = datasource.queryRegister(id: "Unknown").sink { record in
+            returnedRecord = record
+        }
+        
+        XCTAssertNil(returnedRecord)
+        token.cancel()
+    }
+    
+    func test_queryRegister_NotCalledWhenAnotherRegisterIsAdded() {
+        var calls = 0
+        let id = datasource.save(TestRecord(data: "data")).id!
+        var returnedRecord: TestRecord? = nil
+        let token = datasource.queryRegister(id: id).sink { record in
+            returnedRecord = record
+            calls += 1
+        }
+        _ = datasource.save(TestRecord(data: "other"))
+        XCTAssertEqual(returnedRecord?.data, "data")
+        XCTAssertEqual(calls, 1)
+        
+        token.cancel()
+    }
+    
+    func test_queryRegister_calledWhenRegisterIsChanged() {
+        var calls = 0
+        let register = datasource.save(TestRecord(data: "data"))
+        var returnedRecord: TestRecord? = nil
+        let token = datasource.queryRegister(id: register.id!).sink { record in
+            returnedRecord = record
+            calls += 1
+        }
+        returnedRecord!.data = "New data"
+        _ = datasource.save(returnedRecord!)
+        XCTAssertEqual(returnedRecord?.data, "New data")
+        XCTAssertEqual(calls, 2)
+        
+        token.cancel()
+    }
+    
     func test_savedRecords_cleanData_newStorageHasNoData() {
         var record = TestRecord(data: "data")
         record = datasource.save(record)
