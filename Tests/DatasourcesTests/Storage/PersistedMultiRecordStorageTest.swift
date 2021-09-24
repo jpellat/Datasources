@@ -152,6 +152,7 @@ class PersistedMultiRecordStorageTest: XCTestCase {
     }
     
     func test_queryRegister_returnsRegister() {
+        _ = datasource.save(TestRecord(data: "Previous"))
         let id = datasource.save(TestRecord(data: "data")).id!
         var returnedRecord: TestRecord? = nil
         let token = datasource.queryRegister(id: id).sink { record in

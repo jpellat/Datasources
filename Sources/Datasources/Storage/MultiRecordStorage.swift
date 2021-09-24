@@ -11,12 +11,12 @@ import Combine
 public typealias ID = String
 
 @available(watchOS 6.0, *)
-public protocol Recordable: Codable {
+public protocol Recordable: Codable, Equatable {
     var id: ID? {get set}
 }
 
 @available(watchOS 6.0, *)
-public protocol MultiRecordStorage: MultiRecordDatasource where DataType: Recordable {
+public protocol MultiRecordStorage: MultiRecordDatasource {
     func save(_ data: DataType) -> DataType
     func clean() -> Void
 }
@@ -29,7 +29,7 @@ public extension MultiRecordStorage {
 }
 
 @available(watchOS 6.0, *)
-public struct AnyMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable, DT: Equatable {
+public struct AnyMultiRecordStorage<DT>: MultiRecordStorage where DT: Recordable {
     private let storage: Any
     private let saveFunc: (DT) -> DT
     private let queryAllFunc: () -> AnyPublisher<[DT], Never>
